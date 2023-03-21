@@ -46,6 +46,9 @@ class ChatGPTBot(Bot):
             elif query == '更新配置':
                 load_config()
                 return '配置已更新'
+            elif query == '专业模式1':
+                load_config_wcventure()
+                return '已进入专业模式1'
 
             session = Session.build_session_query(query, session_id)
             logger.debug("[OPEN_AI] session query={}".format(session))
