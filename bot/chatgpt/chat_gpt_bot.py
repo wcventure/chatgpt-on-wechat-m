@@ -47,8 +47,50 @@ class ChatGPTBot(Bot):
                 load_config()
                 return '配置已更新'
             elif query == '专业模式1':
-                load_config_wcventure()
+                load_config_wcventure("1")
                 return '已进入专业模式1'
+            elif query == '专业模式2':
+                load_config_wcventure("2")
+                return '已进入专业模式2'
+            elif query == '专业模式3':
+                load_config_wcventure("3")
+                return '已进入专业模式3'
+            elif query == '专业模式4':
+                load_config_wcventure("4")
+                return '已进入专业模式4'
+            elif query == '专业模式5':
+                load_config_wcventure("5")
+                return '已进入专业模式5'
+            elif query == '专业模式6':
+                load_config_wcventure("6")
+                return '已进入专业模式6'
+            elif query == '专业模式7':
+                load_config_wcventure("7")
+                return '已进入专业模式7'
+            elif query == '专业模式8':
+                load_config_wcventure("8")
+                return '已进入专业模式8'
+            elif query == '专业模式9':
+                load_config_wcventure("9")
+                return '已进入专业模式9'
+            elif query == '专业模式10':
+                load_config_wcventure("10")
+                return '已进入专业模式10'
+            elif query == '专业模式11':
+                load_config_wcventure("11")
+                return '已进入专业模式11'
+            elif query == '专业模式12':
+                load_config_wcventure("12")
+                return '已进入专业模式12'
+            elif query == '专业模式13':
+                load_config_wcventure("13")
+                return '已进入专业模式13'
+            elif query == '专业模式14':
+                load_config_wcventure("14")
+                return '已进入专业模式14'
+            elif query == '专业模式15':
+                load_config_wcventure("15")
+                return '已进入专业模式15'
 
             session = Session.build_session_query(query, session_id)
             logger.debug("[OPEN_AI] session query={}".format(session))

@@ -19,7 +19,7 @@ def load_config():
     logger.info("[INIT] load config: {}".format(config))
 
 
-def load_config_wcventure():
+def load_config_wcventure(id):
     global config
     config_path = "config.json"
     if not os.path.exists(config_path):
@@ -28,7 +28,12 @@ def load_config_wcventure():
     config_str = read_file(config_path)
     # 将json字符串反序列化为dict类型
     config = json.loads(config_str)
+    config['character_desc']=config['character_desc'+id]
+    print("============================================================")
+    print("============================================================")
     print(config)
+    print("============================================================")
+    print("============================================================")
     logger.info("[INIT] load config: {}".format(config))
 
 
