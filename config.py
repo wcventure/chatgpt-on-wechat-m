@@ -29,7 +29,7 @@ def load_config_wcventure(id):
     # 将json字符串反序列化为dict类型
     config = json.loads(config_str)
     retstr = ""
-    if id = "0":
+    if id == "0":
         retstr = config["description"]
     else:
         config["character_desc"] = config["character_desc"+id]
