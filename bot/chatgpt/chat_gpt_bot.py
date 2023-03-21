@@ -88,9 +88,9 @@ class ChatGPTBot(Bot):
             elif query == '专业模式14':
                 mgs = load_config_wcventure("14")
                 return '已进入专业模式14\n' + mgs
-            elif query == '专业模式15':
-                mgs = load_config_wcventure("15")
-                return '已进入专业模式15\n' + mgs
+            elif query == '功能说明':
+                mgs = load_config_wcventure("0")
+                return '功能说明：\n' + mgs
 
             session = Session.build_session_query(query, session_id)
             logger.debug("[OPEN_AI] session query={}".format(session))
