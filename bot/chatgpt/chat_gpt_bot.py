@@ -1,7 +1,7 @@
 # encoding:utf-8
 
 from bot.bot import Bot
-from config import conf, load_config
+from config import conf, load_config, load_config_wcventure
 from common.log import logger
 from common.expired_dict import ExpiredDict
 import openai
