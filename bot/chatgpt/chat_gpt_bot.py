@@ -37,6 +37,15 @@ class ChatGPTBot(Bot):
             elif query == '#更新配置':
                 load_config()
                 return '配置已更新'
+            elif query == '清除记忆':
+                Session.clear_session(session_id)
+                return '记忆已清除'
+            elif query == '清除所有':
+                Session.clear_all_session()
+                return '所有人记忆已清除'
+            elif query == '更新配置':
+                load_config()
+                return '配置已更新'
 
             session = Session.build_session_query(query, session_id)
             logger.debug("[OPEN_AI] session query={}".format(session))
