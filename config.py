@@ -28,13 +28,9 @@ def load_config_wcventure(id):
     config_str = read_file(config_path)
     # 将json字符串反序列化为dict类型
     config = json.loads(config_str)
-    config['character_desc']=config['character_desc'+id]
-    print("============================================================")
-    print("============================================================")
-    print(config)
-    print("============================================================")
-    print("============================================================")
+    config["character_desc"]=config["character_desc"+id]
     logger.info("[INIT] load config: {}".format(config))
+    return config["character_desc"]
 
 
 def get_root():
