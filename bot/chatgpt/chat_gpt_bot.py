@@ -54,72 +54,72 @@ class ChatGPTBot(Bot):
             elif query == '专业模式1':
                 mgs = load_config_wcventure("1")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "1")
+                session = Session.build_session_query_wcventure(query, session_id, "1")
                 return '已进入专业模式1\n' + mgs
             elif query == '专业模式2':
                 mgs = load_config_wcventure("2")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "2")
+                session = Session.build_session_query_wcventure(query, session_id, "2")
                 return '已进入专业模式2\n' + mgs
             elif query == '专业模式3':
                 mgs = load_config_wcventure("3")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "3")
+                session = Session.build_session_query_wcventure(query, session_id, "3")
                 return '已进入专业模式3\n' + mgs
             elif query == '专业模式4':
                 mgs = load_config_wcventure("4")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "4")
+                session = Session.build_session_query_wcventure(query, session_id, "4")
                 return '已进入专业模式4\n' + mgs
             elif query == '专业模式5':
                 mgs = load_config_wcventure("5")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "5")
+                session = Session.build_session_query_wcventure(query, session_id, "5")
                 return '已进入专业模式5\n' + mgs
             elif query == '专业模式6':
                 mgs = load_config_wcventure("6")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "6")
+                session = Session.build_session_query_wcventure(query, session_id, "6")
                 return '已进入专业模式6\n' + mgs
             elif query == '专业模式7':
                 mgs = load_config_wcventure("7")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "7")
+                session = Session.build_session_query_wcventure(query, session_id, "7")
                 return '已进入专业模式7\n' + mgs
             elif query == '专业模式8':
                 mgs = load_config_wcventure("8")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "8")
+                session = Session.build_session_query_wcventure(query, session_id, "8")
                 return '已进入专业模式8\n' + mgs
             elif query == '专业模式9':
                 mgs = load_config_wcventure("9")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "9")
+                session = Session.build_session_query_wcventure(query, session_id, "9")
                 return '已进入专业模式9\n' + mgs
             elif query == '专业模式10':
                 mgs = load_config_wcventure("10")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "10")
+                session = Session.build_session_query_wcventure(query, session_id, "10")
                 return '已进入专业模式10\n' + mgs
             elif query == '专业模式11':
                 mgs = load_config_wcventure("11")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "11")
+                session = Session.build_session_query_wcventure(query, session_id, "11")
                 return '已进入专业模式11\n' + mgs
             elif query == '专业模式12':
                 mgs = load_config_wcventure("12")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "12")
+                session = Session.build_session_query_wcventure(query, session_id, "12")
                 return '已进入专业模式12\n' + mgs
             elif query == '专业模式13':
                 mgs = load_config_wcventure("13")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "13")
+                session = Session.build_session_query_wcventure(query, session_id, "13")
                 return '已进入专业模式13\n' + mgs
             elif query == '专业模式14':
                 mgs = load_config_wcventure("14")
                 Session.clear_session(session_id)
-                build_session_query_wcventure(query, session_id, "14")
+                session = Session.build_session_query_wcventure(query, session_id, "14")
                 return '已进入专业模式14\n' + mgs
             elif query == '功能说明' or query == '功能介绍' or query == '专业模式':
                 mgs = load_config_wcventure("0")
