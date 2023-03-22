@@ -121,6 +121,11 @@ class ChatGPTBot(Bot):
                 Session.clear_session(session_id)
                 session = Session.build_session_query_wcventure(query, session_id, "14")
                 return '已进入专业模式14\n' + mgs
+            elif query == '专业模式15':
+                mgs = load_config_wcventure("15")
+                Session.clear_session(session_id)
+                session = Session.build_session_query_wcventure(query, session_id, "15")
+                return '已进入专业模式15\n' + "You should give me the input in the following form:\n###Function: <<<func1, func2>>>\n\n###CODE: <<<\n...\n>>>"
             elif query == '功能说明' or query == '功能介绍' or query == '专业模式':
                 mgs = load_config_wcventure("0")
                 return '功能说明：\n' + mgs
@@ -258,6 +263,13 @@ class Session(object):
             system_prompt = conf().get("character_desc"+p_id, "")
             system_item = {'role': 'system', 'content': system_prompt}
             session.append(system_item)
+            session.append({"role": "user", "content": "###Function: <<<t1, t2>>>\n\n###Code: <<<\n#include <stdio.h>\n#include <stdlib.h>\n#include <unistd.h>\n#include <string.h>\n\nchar* ptr1;\nchar* ptr2;\n\nvoid *t1(void*)\n{\n    if(buf[6] < \'m\')\n        ret = 1;\n    if(buf[5] == \'e\') {\n        ptr2 = ptr1;\n        printf(\"alias: ptr2 == ptr1\\n\");\n    }\n    if(buf[3] == \'s\')\n        if(buf[1] == \'u\'){\n            free(ptr1);\n\t    printf(\"free, %p\\n\", ptr1);\n        }\n    return NULL;\n}\n\nvoid *t2(void*)\n{\n    if(buf[4] == \'e\')\n        if(buf[2] == \'r\')\n if(buf[0] == \'f\'){\n                ptr2[0] = \'m\';\n                printf(\"use, %p\\n\", ptr2);\n   }\n    return NULL;\n}\n>>>"},)
+            session.append({"role": "assistant", "content": "#include <stdio.h>\n#include <stdlib.h>\n#include <pthread.h>\n\nint ret;\nchar buf[7];\n\nint main(int argc, char **argv) {\n\n    ptr1 = (char*)malloc(7);\n    ptr2 = (char*)malloc(7);\n\n    buf[0]='f';\n    buf[1]='u';\n    buf[2]='r';\n    buf[3]='s';\n    buf[4]='e';\n    buf[5]='e';\n    buf[6]='a';\n\n    pthread_t id1, id2;\n    pthread_create(&id2, NULL, t2, NULL);\n    pthread_create(&id1, NULL, t1, NULL);\n    pthread_join(id1, NULL);\n    pthread_join(id2, NULL);\n    \n    return 0;\n}"},)
+            session.append({"role": "user", "content": "###Function: <<<racy_transfer, racy_transfer>>>\n\n###Code: <<<\n#include <stdlib.h>\n#include <stdio.h>\n \nint my_account = 0;      //my account balance\nint your_account = 100;  //your account balance\n \n// transfer money!\nint racy_transfer(int m)\n{\n    if (m <= your_account) {  //result unpredictable\n        your_account -= m;      //result unpredictable\n        my_account += m;      //result unpredictable\n        return 1;\n    } else {\n        return 0;\n    }\n}\n>>>"},)
+            session.append({"role": "assistant", "content": "#include <pthread.h>\n\nint main(int argc, char **argv) {\n    int a = 50;\n    int b = 80;\n\n    pthread_t id1, id2;\n    pthread_create(&id1, NULL, racy_transfer, a);\n    pthread_create(&id2, NULL, racy_transfer, b);\n    pthread_join(id1, NULL);\n    pthread_join(id2, NULL);\n\n    return 0;\n}"},)
+            session.append({"role": "user", "content": "###Function: <<<involve, pipe_write_open>>>\n\n#Code: <<<\n#include <pthread.h>\n#include <stdio.h>\n#include <unistd.h>\n#include <iostream>\n#include <stdlib.h>\n#include <time.h>\n\nusing namespace std;\n\nstruct pipe_inode_info\n{\n    unsigned int writers;\n    unsigned int readers;\n\n    pipe_inode_info()\n    {\n        writers = 0;\n        readers = 0;\n    }\n};\n\nstruct INODE\n{\n    pthread_mutex_t i_mutex;\n    struct pipe_inode_info *i_pipe;\n\n    INODE()\n    {\n        pthread_mutex_init(&i_mutex, NULL);\n        i_pipe = new pipe_inode_info();\n    }\n};\n\nstatic void* pipe_write_open(void* arg)\n{\n    pthread_mutex_lock(&inode->i_mutex);\n\n    inode->i_pipe->readers++;\n    pthread_mutex_unlock(&inode->i_mutex);\n    return NULL;\n}\n\nstatic void* involve(void* arg)\n{\n    pthread_mutex_lock(&inode->i_mutex);\n    inode->i_pipe = NULL;\n    pthread_mutex_unlock(&inode->i_mutex);\n    return NULL;\n}>>>"},)
+            session.append({"role": "assistant", "content": "#include <pthread.h>\n#include <stdio.h>\n\nINODE* inode;\n\nint main()\n{\n    inode = new INODE();\n    \n    pthread_t t1, t2;\n    pthread_create(&t1, NULL, pipe_write_open, NULL);\n    pthread_create(&t2, NULL, involve, NULL);\n\n    pthread_join(t1, NULL);\n    pthread_join(t2, NULL);\n\n    return 0;\n}"},)
+            session.append({"role": "user", "content": "###Function: <<<" + func_list + ">>>\n\n###Code: <<<\n" + code_snippet + "\n>>>"},)
             all_sessions[session_id] = session
         user_item = {'role': 'user', 'content': query}
         session.append(user_item)
