@@ -30,7 +30,7 @@ def load_config_wcventure(id):
     config = json.loads(config_str)
     retstr = ""
     if id == "0":
-        retstr = config["description"].replace()
+        retstr = config["description"]
     else:
         retstr = config["character_desc"+id]
         retstr = retstr.replace("我","MYREYOU").replace("你","我").replace("您","我").replace("MYREYOU","您")
