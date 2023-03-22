@@ -54,7 +54,7 @@ class ChatGPTBot(Bot):
             elif query == '专业模式1':
                 mgs = load_config_wcventure("1")
                 Session.clear_session(session_id)
-                return 已进入专业模式1\n' + mgs
+                return '已进入专业模式1\n' + mgs
             elif query == '专业模式2':
                 mgs = load_config_wcventure("2")
                 Session.clear_session(session_id)
