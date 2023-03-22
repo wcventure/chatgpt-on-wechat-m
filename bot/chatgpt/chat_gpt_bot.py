@@ -54,59 +54,72 @@ class ChatGPTBot(Bot):
             elif query == '专业模式1':
                 mgs = load_config_wcventure("1")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "1")
                 return '已进入专业模式1\n' + mgs
             elif query == '专业模式2':
                 mgs = load_config_wcventure("2")
                 Session.clear_session(session_id)
-                Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "2")
                 return '已进入专业模式2\n' + mgs
             elif query == '专业模式3':
                 mgs = load_config_wcventure("3")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "3")
                 return '已进入专业模式3\n' + mgs
             elif query == '专业模式4':
                 mgs = load_config_wcventure("4")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "4")
                 return '已进入专业模式4\n' + mgs
             elif query == '专业模式5':
                 mgs = load_config_wcventure("5")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "5")
                 return '已进入专业模式5\n' + mgs
             elif query == '专业模式6':
                 mgs = load_config_wcventure("6")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "6")
                 return '已进入专业模式6\n' + mgs
             elif query == '专业模式7':
                 mgs = load_config_wcventure("7")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "7")
                 return '已进入专业模式7\n' + mgs
             elif query == '专业模式8':
                 mgs = load_config_wcventure("8")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "8")
                 return '已进入专业模式8\n' + mgs
             elif query == '专业模式9':
                 mgs = load_config_wcventure("9")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "9")
                 return '已进入专业模式9\n' + mgs
             elif query == '专业模式10':
                 mgs = load_config_wcventure("10")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "10")
                 return '已进入专业模式10\n' + mgs
             elif query == '专业模式11':
                 mgs = load_config_wcventure("11")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "11")
                 return '已进入专业模式11\n' + mgs
             elif query == '专业模式12':
                 mgs = load_config_wcventure("12")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "12")
                 return '已进入专业模式12\n' + mgs
             elif query == '专业模式13':
                 mgs = load_config_wcventure("13")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "13")
                 return '已进入专业模式13\n' + mgs
             elif query == '专业模式14':
                 mgs = load_config_wcventure("14")
                 Session.clear_session(session_id)
+                build_session_query_wcventure(query, session_id, "14")
                 return '已进入专业模式14\n' + mgs
             elif query == '功能说明' or query == '功能介绍' or query == '专业模式':
                 mgs = load_config_wcventure("0")
@@ -219,6 +232,30 @@ class Session(object):
         session = all_sessions.get(session_id, [])
         if len(session) == 0:
             system_prompt = conf().get("character_desc", "")
+            system_item = {'role': 'system', 'content': system_prompt}
+            session.append(system_item)
+            all_sessions[session_id] = session
+        user_item = {'role': 'user', 'content': query}
+        session.append(user_item)
+        return session
+
+    @staticmethod
+    def build_session_query_wcventure(query, session_id, p_id):
+        '''
+        build query with conversation history
+        e.g.  [
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": "Who won the world series in 2020?"},
+            {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
+            {"role": "user", "content": "Where was it played?"}
+        ]
+        :param query: query content
+        :param session_id: session id
+        :return: query content with conversaction
+        '''
+        session = all_sessions.get(session_id, [])
+        if len(session) == 0:
+            system_prompt = conf().get("character_desc"+p_id, "")
             system_item = {'role': 'system', 'content': system_prompt}
             session.append(system_item)
             all_sessions[session_id] = session

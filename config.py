@@ -30,10 +30,10 @@ def load_config_wcventure(id):
     config = json.loads(config_str)
     retstr = ""
     if id == "0":
-        retstr = config["description"]
+        retstr = config["description"].replace()
     else:
-        config["character_desc"] = config["character_desc"+id]
-        retstr = config["character_desc"]
+        retstr = config["character_desc"+id]
+        retstr = retstr.replace("我","MYREYOU").replace("你","我").replace("您","我").replace("MYREYOU","您")
         
     logger.info("[INIT] load config: {}".format(config))
     return retstr
