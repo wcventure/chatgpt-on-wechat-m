@@ -53,10 +53,13 @@ class ChatGPTBot(Bot):
                 return '配置已更新'
             elif query == '专业模式1':
                 mgs = load_config_wcventure("1")
-                return '已进入专业模式1\n' + mgs
+                session = all_sessions.get(session_id, [])
+                return str(len(session)) + '已进入专业模式1\n' + mgs
             elif query == '专业模式2':
                 mgs = load_config_wcventure("2")
-                return '已进入专业模式2\n' + mgs
+                Session.clear_session(session_id)
+                session = all_sessions.get(session_id, [])
+                return str(len(session)) + '已进入专业模式2\n' + mgs
             elif query == '专业模式3':
                 mgs = load_config_wcventure("3")
                 return '已进入专业模式3\n' + mgs
