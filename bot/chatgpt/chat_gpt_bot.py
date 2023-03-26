@@ -306,7 +306,7 @@ class SessionManager(object):
         :param session_id: session id
         :return: query content with conversaction
         '''
-        session = self.build_session(session_id, pid)
+        session = self.build_session(session_id, p_id)
         user_item = {'role': 'user', 'content': query}
         session.append(user_item)
         return session
