@@ -28,6 +28,24 @@ available_setting ={
     #chatgpt会话参数
     "expires_in_seconds": 3600, # 无操作会话的过期时间
     "character_desc": "你是ChatGPT, 一个由OpenAI训练的大型语言模型, 你旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。", # 人格描述
+    "character_desc1": "",
+    "character_desc2": "",
+    "character_desc3": "",
+    "character_desc4": "",
+    "character_desc5": "",
+    "character_desc6": "",
+    "character_desc7": "",
+    "character_desc8": "",
+    "character_desc9": "",
+    "character_desc10": "",
+    "character_desc11": "",
+    "character_desc12": "",
+    "character_desc13": "",
+    "character_desc14": "",
+    "character_desc15": "",
+    "character_desc16": "",
+    "character_desc17": "",
+    "character_desc18": "",
     "description": "",
     "conversation_max_tokens": 1000, # 支持上下文记忆的最多字符数
             
