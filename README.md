@@ -15,17 +15,15 @@
 
 # 更新日志
 
+>**2023.03.25：** 支持插件化开发，目前已实现 多角色切换、文字冒险游戏、管理员指令、Stable Diffusion等插件，使用参考 [#578](https://github.com/zhayujie/chatgpt-on-wechat/issues/578)。(contributed by [@lanvent](https://github.com/lanvent) in [#565](https://github.com/zhayujie/chatgpt-on-wechat/pull/565))
+
 >**2023.03.09：** 基于 `whisper API` 实现对微信语音消息的解析和回复，添加配置项 `"speech_recognition":true` 即可启用，使用参考 [#415](https://github.com/zhayujie/chatgpt-on-wechat/issues/415)。(contributed by [wanggang1987](https://github.com/wanggang1987) in [#385](https://github.com/zhayujie/chatgpt-on-wechat/pull/385))
 
 >**2023.03.02：** 接入[ChatGPT API](https://platform.openai.com/docs/guides/chat) (gpt-3.5-turbo)，默认使用该模型进行对话，需升级openai依赖 (`pip3 install --upgrade openai`)。网络问题参考 [#351](https://github.com/zhayujie/chatgpt-on-wechat/issues/351)
 
->**2023.02.20：** 增加 [python-wechaty](https://github.com/wechaty/python-wechaty) 作为可选渠道，使用Pad协议，但Token收费 (使用参考[#244](https://github.com/zhayujie/chatgpt-on-wechat/pull/244)，contributed by [ZQ7](https://github.com/ZQ7))
-
 >**2023.02.09：** 扫码登录存在封号风险，请谨慎使用，参考[#58](https://github.com/AutumnWhj/ChatGPT-wechat-bot/issues/158)
 
 >**2023.02.05：** 在openai官方接口方案中 (GPT-3模型) 实现上下文对话
-
->**2022.12.19：** 引入 [itchat-uos](https://github.com/why2lyj/ItChat-UOS) 替换 itchat，解决由于不能登录网页微信而无法使用的问题，且解决Python3.9的兼容问题
 
 >**2022.12.18：** 支持根据描述生成图片并发送，openai版本需大于0.25.0
 
@@ -54,7 +52,10 @@
 
 前往 [OpenAI注册页面](https://beta.openai.com/signup) 创建账号，参考这篇 [教程](https://www.pythonthree.com/register-openai-chatgpt/) 可以通过虚拟手机号来接收验证码。创建完账号则前往 [API管理页面](https://beta.openai.com/account/api-keys) 创建一个 API Key 并保存下来，后面需要在项目中配置这个key。
 
-> 项目中使用的对话模型是 davinci，计费方式是约每 750 字 (包含请求和回复) 消耗 $0.02，图片生成是每张消耗 $0.016，账号创建有免费的 $18 额度，使用完可以更换邮箱重新注册。
+> 项目中使用的对话模型是 davinci，计费方式是约每 750 字 (包含请求和回复) 消耗 $0.02，图片生成是每张消耗 $0.016，账号创建有免费的 $18 额度 (更新3.25: 最新注册的已经无免费额度了)，使用完可以更换邮箱重新注册。
+
+#### 1.1 ChapGPT service On Azure
+一种替换以上的方法是使用Azure推出的[ChatGPT service](https://azure.microsoft.com/en-in/products/cognitive-services/openai-service/)。它host在公有云Azure上，因此不需要VPN就可以直接访问。不过目前仍然处于preview阶段。新用户可以通过Try Azure for free来薅一段时间的羊毛
 
 
 ### 2.运行环境
@@ -96,16 +97,18 @@ pip3 install --upgrade openai
 # config.json文件内容示例
 { 
   "open_ai_api_key": "YOUR API KEY",                          # 填入上面创建的 OpenAI API KEY
-  "model": "gpt-3.5-turbo",                                   # 模型名称
+  "model": "gpt-3.5-turbo",                                   # 模型名称。当use_azure_chatgpt为true时，其名称为Azure上model deployment名称
   "proxy": "127.0.0.1:7890",                                  # 代理客户端的ip和端口
   "single_chat_prefix": ["bot", "@bot"],                      # 私聊时文本需要包含该前缀才能触发机器人回复
   "single_chat_reply_prefix": "[bot] ",                       # 私聊时自动回复的前缀，用于区分真人
   "group_chat_prefix": ["@bot"],                              # 群聊时包含该前缀则会触发机器人回复
   "group_name_white_list": ["ChatGPT测试群", "ChatGPT测试群2"], # 开启自动回复的群名称列表
+  "group_chat_in_one_session": ["ChatGPT测试群"],              # 支持会话上下文共享的群名称       
   "image_create_prefix": ["画", "看", "找"],                   # 开启图片回复的前缀
   "conversation_max_tokens": 1000,                            # 支持上下文记忆的最多字符数
   "speech_recognition": false,                                # 是否开启语音识别
-  "character_desc": "你是ChatGPT, 一个由OpenAI训练的大型语言模型, 你旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。",  # 人格描述
+  "use_azure_chatgpt": false,                                 # 是否使用Azure ChatGPT service代替openai ChatGPT service. 当设置为true时需要设置 open_ai_api_base，如 https://xxx.openai.azure.com/
+  "character_desc": "你是ChatGPT, 一个由OpenAI训练的大型语言模型, 你旨在回答并解决人们的任何问题，并且可以使用多种语言与人交流。",  # 人格描述,
 }
 ```
 **配置说明：**
@@ -120,6 +123,7 @@ pip3 install --upgrade openai
 + 群组聊天中，群名称需配置在 `group_name_white_list ` 中才能开启群聊自动回复。如果想对所有群聊生效，可以直接填写 `"group_name_white_list": ["ALL_GROUP"]`
 + 默认只要被人 @ 就会触发机器人自动回复；另外群聊天中只要检测到以 "@bot" 开头的内容，同样会自动回复（方便自己触发），这对应配置项 `group_chat_prefix`
 + 可选配置: `group_name_keyword_white_list`配置项支持模糊匹配群名称，`group_chat_keyword`配置项则支持模糊匹配群消息内容，用法与上述两个配置项相同。（Contributed by [evolay](https://github.com/evolay))
++ `group_chat_in_one_session`：使群聊共享一个会话上下文，配置 `["ALL_GROUP"]` 则作用于所有群聊
 
 **3.语音识别**
 
@@ -173,6 +177,14 @@ nohup python3 app.py & tail -f nohup.out          # 在后台运行程序并通�
 
 参考文档 [Docker部署](https://github.com/limccn/chatgpt-on-wechat/wiki/Docker%E9%83%A8%E7%BD%B2)   (Contributed by [limccn](https://github.com/limccn))。
 
+### 4. Railway部署
+[Use with Railway](#use-with-railway)(PaaS, Free, Stable, ✅Recommended)
+> Railway offers $5 (500 hours) of runtime per month
+1. Click the [Railway](https://railway.app/) button to go to the Railway homepage
+2. Click the `Start New Project` button.
+3. Click the `Deploy from Github repo` button.
+4. Choose your repo (you can fork this repo firstly)
+5. Set environment variable to override settings in config-template.json, such as: model, open_ai_api_base, open_ai_api_key, use_azure_chatgpt etc.
 
 ## 常见问题
 
