@@ -293,7 +293,7 @@ class SessionManager(object):
         session.append(user_item)
         return session
 
-    def build_session_query_wcventure(query, session_id, p_id):
+    def build_session_query_wcventure(self, query, session_id, p_id):
         '''
         build query with conversation history
         e.g.  [

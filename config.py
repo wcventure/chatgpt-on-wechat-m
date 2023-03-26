@@ -117,7 +117,7 @@ def load_config():
     logger.info("[INIT] load config: {}".format(config))
 
 
-def load_config():
+def load_config_wcventure(id):
     global config
     config_path = "./config.json"
     if not os.path.exists(config_path):
