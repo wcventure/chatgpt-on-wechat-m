@@ -1,6 +1,9 @@
 # encoding:utf-8
 
 from bot.bot import Bot
+from bot.chatgpt.chat_gpt_session import ChatGPTSession
+from bot.openai.open_ai_image import OpenAIImage
+from bot.session_manager import Session, SessionManager
 from bridge.context import ContextType
 from bridge.reply import Reply, ReplyType
 from config import conf, load_config, load_config_wcventure
@@ -10,21 +13,20 @@ from common.expired_dict import ExpiredDict
 import openai
 import time
 
-
 # OpenAI对话模型API (可用)
-class ChatGPTBot(Bot):
+class ChatGPTBot(Bot,OpenAIImage):
     def __init__(self):
+        super().__init__()
         openai.api_key = conf().get('open_ai_api_key')
         if conf().get('open_ai_api_base'):
             openai.api_base = conf().get('open_ai_api_base')
         proxy = conf().get('proxy')
-        self.sessions = SessionManager()
         if proxy:
             openai.proxy = proxy
         if conf().get('rate_limit_chatgpt'):
             self.tb4chatgpt = TokenBucket(conf().get('rate_limit_chatgpt', 20))
-        if conf().get('rate_limit_dalle'):
-            self.tb4dalle = TokenBucket(conf().get('rate_limit_dalle', 50))
+        
+        self.sessions = SessionManager(ChatGPTSession, model= conf().get("model") or "gpt-3.5-turbo")
 
     def reply(self, query, context=None):
         # acquire reply content
@@ -55,77 +57,77 @@ class ChatGPTBot(Bot):
             elif query == '专业模式1':
                 mgs = load_config_wcventure("1")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "1")
+                session = self.sessions.session_query_wcventure(query, session_id, "1")
                 reply = Reply(ReplyType.INFO, '已进入专业模式1\n' + mgs)
             elif query == '专业模式2':
                 mgs = load_config_wcventure("2")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "2")
+                session = self.sessions.session_query_wcventure(query, session_id, "2")
                 reply = Reply(ReplyType.INFO, '已进入专业模式2\n' + mgs)
             elif query == '专业模式3':
                 mgs = load_config_wcventure("3")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "3")
+                session = self.sessions.session_query_wcventure(query, session_id, "3")
                 reply = Reply(ReplyType.INFO, '已进入专业模式3\n' + mgs)
             elif query == '专业模式4':
                 mgs = load_config_wcventure("4")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "4")
+                session = self.sessions.session_query_wcventure(query, session_id, "4")
                 reply = Reply(ReplyType.INFO, '已进入专业模式4\n' + mgs)
             elif query == '专业模式5':
                 mgs = load_config_wcventure("5")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "5")
+                session = self.sessions.session_query_wcventure(query, session_id, "5")
                 reply = Reply(ReplyType.INFO, '已进入专业模式5\n' + mgs)
             elif query == '专业模式6':
                 mgs = load_config_wcventure("6")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "6")
+                session = self.sessions.session_query_wcventure(query, session_id, "6")
                 reply = Reply(ReplyType.INFO, '已进入专业模式6\n' + mgs)
             elif query == '专业模式7':
                 mgs = load_config_wcventure("7")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "7")
+                session = self.sessions.session_query_wcventure(query, session_id, "7")
                 reply = Reply(ReplyType.INFO, '已进入专业模式7\n' + mgs)
             elif query == '专业模式8':
                 mgs = load_config_wcventure("8")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "8")
+                session = self.sessions.session_query_wcventure(query, session_id, "8")
                 reply = Reply(ReplyType.INFO, '已进入专业模式8\n' + mgs)
             elif query == '专业模式9':
                 mgs = load_config_wcventure("9")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "9")
+                session = self.sessions.session_query_wcventure(query, session_id, "9")
                 reply = Reply(ReplyType.INFO, '已进入专业模式9\n' + mgs)
             elif query == '专业模式10':
                 mgs = load_config_wcventure("10")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "10")
+                session = self.sessions.session_query_wcventure(query, session_id, "10")
                 reply = Reply(ReplyType.INFO, '已进入专业模式10\n' + mgs)
             elif query == '专业模式11':
                 mgs = load_config_wcventure("11")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "11")
+                session = self.sessions.session_query_wcventure(query, session_id, "11")
                 reply = Reply(ReplyType.INFO, '已进入专业模式11\n' + mgs)
             elif query == '专业模式12':
                 mgs = load_config_wcventure("12")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "12")
+                session = self.sessions.session_query_wcventure(query, session_id, "12")
                 reply = Reply(ReplyType.INFO, '已进入专业模式12\n' + mgs)
             elif query == '专业模式13':
                 mgs = load_config_wcventure("13")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "13")
+                session = self.sessions.session_query_wcventure(query, session_id, "13")
                 reply = Reply(ReplyType.INFO, '已进入专业模式13\n' + mgs)
             elif query == '专业模式14':
                 mgs = load_config_wcventure("14")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "14")
+                session = self.sessions.session_query_wcventure(query, session_id, "14")
                 reply = Reply(ReplyType.INFO, '已进入专业模式14\n' + mgs)
             elif query == '专业模式15':
                 mgs = load_config_wcventure("15")
                 self.sessions.clear_session(session_id)
-                session = self.sessions.build_session_query_wcventure(query, session_id, "15")
+                session = self.sessions.session_query_wcventure(query, session_id, "15")
                 reply = Reply(ReplyType.INFO, '已进入专业模式15\n' + "You should give me the input in the following form:\n###Function: <<<func1, func2>>>\n\n###CODE: <<<\n...\n>>>")
             elif query == '功能说明' or query == '功能介绍' or query == '专业模式':
                 mgs = load_config_wcventure("0")
@@ -133,19 +135,19 @@ class ChatGPTBot(Bot):
 
             if reply:
                 return reply
-            session = self.sessions.build_session_query(query, session_id)
-            logger.debug("[OPEN_AI] session query={}".format(session))
+            session = self.sessions.session_query(query, session_id)
+            logger.debug("[OPEN_AI] session query={}".format(session.messages))
 
             # if context.get('stream'):
             #     # reply in stream
             #     return self.reply_text_stream(query, new_query, session_id)
 
             reply_content = self.reply_text(session, session_id, 0)
-            logger.debug("[OPEN_AI] new_query={}, session_id={}, reply_cont={}".format(session, session_id, reply_content["content"]))
+            logger.debug("[OPEN_AI] new_query={}, session_id={}, reply_cont={}, completion_tokens={}".format(session.messages, session_id, reply_content["content"], reply_content["completion_tokens"]))
             if reply_content['completion_tokens'] == 0 and len(reply_content['content']) > 0:
                 reply = Reply(ReplyType.ERROR, reply_content['content'])
             elif reply_content["completion_tokens"] > 0:
-                self.sessions.save_session(reply_content["content"], session_id, reply_content["total_tokens"])
+                self.sessions.session_reply(reply_content["content"], session_id, reply_content["total_tokens"])
                 reply = Reply(ReplyType.TEXT, reply_content["content"])
             else:
                 reply = Reply(ReplyType.ERROR, reply_content['content'])
@@ -174,7 +176,7 @@ class ChatGPTBot(Bot):
             "presence_penalty":conf().get('presence_penalty', 0.0),  # [-2,2]之间，该值越大则更倾向于产生不同的内容
         }
 
-    def reply_text(self, session, session_id, retry_count=0) -> dict:
+    def reply_text(self, session:ChatGPTSession, session_id, retry_count=0) -> dict:
         '''
         call openai's ChatCompletion to get the answer
         :param session: a conversation session
@@ -186,7 +188,7 @@ class ChatGPTBot(Bot):
             if conf().get('rate_limit_chatgpt') and not self.tb4chatgpt.get_token():
                 return {"completion_tokens": 0, "content": "提问太快啦，请休息一下再问我吧"}
             response = openai.ChatCompletion.create(
-                messages=session, **self.compose_args()
+                messages=session.messages, **self.compose_args()
             )
             # logger.info("[ChatGPT] reply={}, total_tokens={}".format(response.choices[0]['message']['content'], response["usage"]["total_tokens"]))
             return {"total_tokens": response["usage"]["total_tokens"],
@@ -216,31 +218,6 @@ class ChatGPTBot(Bot):
             self.sessions.clear_session(session_id)
             return {"completion_tokens": 0, "content": "请再问我一次吧"}
 
-    def create_img(self, query, retry_count=0):
-        try:
-            if conf().get('rate_limit_dalle') and not self.tb4dalle.get_token():
-                return False, "请求太快了，请休息一下再问我吧"
-            logger.info("[OPEN_AI] image_query={}".format(query))
-            response = openai.Image.create(
-                prompt=query,    #图片描述
-                n=1,             #每次生成图片的数量
-                size="256x256"   #图片大小,可选有 256x256, 512x512, 1024x1024
-            )
-            image_url = response['data'][0]['url']
-            logger.info("[OPEN_AI] image_url={}".format(image_url))
-            return True, image_url
-        except openai.error.RateLimitError as e:
-            logger.warn(e)
-            if retry_count < 1:
-                time.sleep(5)
-                logger.warn("[OPEN_AI] ImgCreate RateLimit exceed, 第{}次重试".format(retry_count+1))
-                return self.create_img(query, retry_count+1)
-            else:
-                return False, "提问太快啦，请休息一下再问我吧"
-        except Exception as e:
-            logger.exception(e)
-            return False, str(e)
-
 
 class AzureChatGPTBot(ChatGPTBot):
     def __init__(self):
@@ -253,94 +230,3 @@ class AzureChatGPTBot(ChatGPTBot):
         args["engine"] = args["model"]
         del(args["model"])
         return args
-
-
-class SessionManager(object):
-    def __init__(self):
-        if conf().get('expires_in_seconds'):
-            sessions = ExpiredDict(conf().get('expires_in_seconds'))
-        else:
-            sessions = dict()
-        self.sessions = sessions
-
-    def build_session(self, session_id, system_prompt=None):
-        session = self.sessions.get(session_id, [])
-        if len(session) == 0:
-            if system_prompt is None:
-                system_prompt = conf().get("character_desc", "")
-            else:
-                system_prompt = conf().get("character_desc"+system_prompt, "")
-            system_item = {'role': 'system', 'content': system_prompt}
-            session.append(system_item)
-            self.sessions[session_id] = session
-        return session
-
-    def build_session_query(self, query, session_id):
-        '''
-        build query with conversation history
-        e.g.  [
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Who won the world series in 2020?"},
-            {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
-            {"role": "user", "content": "Where was it played?"}
-        ]
-        :param query: query content
-        :param session_id: session id
-        :return: query content with conversaction
-        '''
-        session = self.build_session(session_id)
-        user_item = {'role': 'user', 'content': query}
-        session.append(user_item)
-        return session
-
-    def build_session_query_wcventure(self, query, session_id, p_id):
-        '''
-        build query with conversation history
-        e.g.  [
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": "Who won the world series in 2020?"},
-            {"role": "assistant", "content": "The Los Angeles Dodgers won the World Series in 2020."},
-            {"role": "user", "content": "Where was it played?"}
-        ]
-        :param query: query content
-        :param session_id: session id
-        :return: query content with conversaction
-        '''
-        session = self.build_session(session_id, p_id)
-        user_item = {'role': 'user', 'content': query}
-        session.append(user_item)
-        return session
-        
-    def save_session(self, answer, session_id, total_tokens):
-        max_tokens = conf().get("conversation_max_tokens")
-        if not max_tokens:
-            # default 3000
-            max_tokens = 1000
-        max_tokens = int(max_tokens)
-
-        session = self.sessions.get(session_id)
-        if session:
-            # append conversation
-            gpt_item = {'role': 'assistant', 'content': answer}
-            session.append(gpt_item)
-
-        # discard exceed limit conversation
-        self.discard_exceed_conversation(session, max_tokens, total_tokens)
-
-    def discard_exceed_conversation(self, session, max_tokens, total_tokens):
-        dec_tokens = int(total_tokens)
-        # logger.info("prompt tokens used={},max_tokens={}".format(used_tokens,max_tokens))
-        while dec_tokens > max_tokens:
-            # pop first conversation
-            if len(session) > 3:
-                session.pop(1)
-                session.pop(1)
-            else:
-                break
-            dec_tokens = dec_tokens - max_tokens
-
-    def clear_session(self, session_id):
-        self.sessions[session_id] = []
-
-    def clear_all_session(self):
-        self.sessions.clear()
