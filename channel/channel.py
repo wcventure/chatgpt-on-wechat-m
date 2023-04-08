@@ -4,9 +4,10 @@ Message sending channel abstract class
 
 from bridge.bridge import Bridge
 from bridge.context import Context
-from bridge.reply import Reply
+from bridge.reply import *
 
 class Channel(object):
+    NOT_SUPPORT_REPLYTYPE = [ReplyType.VOICE, ReplyType.IMAGE]
     def startup(self):
         """
         init channel
@@ -20,7 +21,8 @@ class Channel(object):
         """
         raise NotImplementedError
 
-    def send(self, msg, receiver):
+    # 统一的发送函数，每个Channel自行实现，根据reply的type字段发送不同类型的消息
+    def send(self, reply: Reply, context: Context):
         """
         send message to user
         :param msg: message content
