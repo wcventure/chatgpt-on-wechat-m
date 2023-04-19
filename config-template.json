@@ -5,10 +5,21 @@
   "use_azure_chatgpt": false,
   "single_chat_prefix": [""],
   "single_chat_reply_prefix": "",
-  "group_chat_prefix": ["@bot", "@最强打工人", "@GPT小文", "@文心二言"],
-  "group_name_white_list": ["ALL_GROUP"],
-  "group_chat_in_one_session": ["ChatGPT测试群"],
-  "image_create_prefix": ["画"],
+  "group_chat_prefix": [
+    "@bot",
+    "@最强打工人",
+    "@GPT小文",
+    "@文心二言"
+  ],
+  "group_name_white_list": [
+    "ALL_GROUP"
+  ],
+  "group_chat_in_one_session": [
+    "ChatGPT测试群"
+  ],
+  "image_create_prefix": [
+    "画"
+  ],
   "speech_recognition": true,
   "group_speech_recognition": false,
   "voice_reply_voice": true,
